@@ -1,24 +1,25 @@
 # Sam
 
-if you can create some bootstrap data, and a basic meteor method to search based on tags, I can get those results on the client and plug it into d3 for you. I'm uncertain how to results would be visualized though. If you search "location: venesuela", you'll end up with a ton of nodes. But I'm not sure if theres a way to query for all edges between all those nodes. 
+if you can create some bootstrap data, and a basic meteor method to search based on tags, I can get those results on the client and plug it into d3 for you. I'm uncertain how to results would be visualized though. If you search "location: venesuela", you'll end up with a ton of nodes. But I'm not sure if theres a way to query for all edges between all those nodes.
 
 # To Do
 
-- bootstrap some fake data into neo4j
-- search
-  - tags
-  - names
-  - types
-  - custom/advanced queries
-    - shortest path between two nodes
-    - largest clique
-- results
-  - if more than N results, show in a list
-  - else show in a graph
-  - how exactly is this data presented?
-- d3 graph
-  - hover to show details
-  - click on a button to fetch more from that node and add to the graph
+- [x] bootstrap some fake data into neo4j
+  - [ ] figure out the best way to add crimes to database (as a node, or as a property on an edge?)
+- [ ] search
+  - [ ] tags
+  - [ ] names
+  - [ ] types
+  - [ ] custom/advanced queries
+    - [ ] shortest path between two nodes
+    - [ ] largest clique
+- [ ] results
+  - [ ] if more than N results, show in a list
+  - [ ] else show in a graph
+  - [ ] how exactly is this data presented?
+- [ ] d3 graph
+  - [ ] hover to show details
+  - [ ] click on a button to fetch more from that node and add to the graph
 
 So how is this all going to work / look?
 

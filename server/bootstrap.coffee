@@ -145,5 +145,4 @@ x = Neo4j.query "MATCH (a) RETURN (a)"
 
 # Determine if there are 0; if so, seed the database
 if x.length is 0
-  console.log "running"
   seed()
