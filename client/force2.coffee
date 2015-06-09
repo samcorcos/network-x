@@ -100,10 +100,9 @@ Template.main.rendered = ->
     .enter().append('circle')
     .attr('class', 'node')
     .attr('r', 8)
-    style('fill', (d) ->
+    .style('fill', (d) ->
       color(d.label)
-    )
-    .call(force.drag)
+    ).call(force.drag)
 
   force.on 'tick', ->
     link.attr('x1', (d) ->
