@@ -32,4 +32,5 @@ Template.allData.events
   'click button': (e,t) ->
     Meteor.call "getGraph", (err, res) ->
       Session.set "graph", res
+      Session.set "isGraph", true
       console.log res
