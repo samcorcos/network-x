@@ -1,7 +1,3 @@
-# Sam
-
-if you can create some bootstrap data, and a basic meteor method to search based on tags, I can get those results on the client and plug it into d3 for you. I'm uncertain how to results would be visualized though. If you search "location: venesuela", you'll end up with a ton of nodes. But I'm not sure if theres a way to query for all edges between all those nodes.
-
 # To Do
 
 - [x] bootstrap some fake data into neo4j

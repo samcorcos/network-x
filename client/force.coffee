@@ -1,7 +1,5 @@
 # http://bl.ocks.org/mbostock/4062045
 
-# This is still very much a work in progress
-
 class Graph
   constructor: (selector, [height, width]) ->
     @nodes = []
@@ -39,12 +37,12 @@ class Graph
 
   display: (addNodes, addLinks) ->
     # merge nodes and links:
-    # its very important that we mutate the arrays and objects rather than 
+    # its very important that we mutate the arrays and objects rather than
     # replace them because d3 has a reference to the specific object.
 
     # for every node in nodes, see if you can find a node with the same id
     # and if you do, make sure the properties are the same. Otherwise, update
-    # those properties. Otherwise, append the node to the array. 
+    # those properties. Otherwise, append the node to the array.
     for newNode in newNodes
       found = false
       for node in @nodes
@@ -58,7 +56,7 @@ class Graph
 
     # for every link, see if it exists in links, and update the properties if
     # necessary. otherwise, find the referenced nodes by id and set the source
-    # and target object references 
+    # and target object references
     for newLink in newLinks
       found = false
       for link in @links
@@ -84,7 +82,7 @@ class Graph
       .append("path")
       .attr("class", "link")
     @link.exit().remove()
-    
+
     @node = @svg.selectAll(".node")
       .data(@nodes)
       .enter()
