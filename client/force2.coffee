@@ -2,7 +2,6 @@ Template.main.rendered = ->
   Session.setDefault "isGraph", false
 
   createGraph = ->
-    console.log "running createGraph"
     # Constants
     width = 500
     height = 500
@@ -21,12 +20,13 @@ Template.main.rendered = ->
       .attr('width', width)
       .attr('height', height)
 
+    graph = Session.get "graph"
+
 
 
 
   Tracker.autorun (c) ->
     if Session.get "isGraph", true
-      console.log "tracker?"
       createGraph()
 
 

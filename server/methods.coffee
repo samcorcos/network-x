@@ -13,3 +13,9 @@ Meteor.methods
 
     # Matches all companies that contain the industry
     return Neo4j.query "MATCH (a:Company) WHERE '#{industry}' IN a.industry RETURN (a)" if industry
+
+  getGraph: () ->
+    # Returns all data in the graph
+    x = Neo4j.query "MATCH (a)-[r]->(b) RETURN (a),type(r),(b)"
+    y = createLinks(x[0], x[1], x[2])
+    return y
