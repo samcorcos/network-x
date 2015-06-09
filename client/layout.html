@@ -20,9 +20,11 @@
     {{> companySearch}}
     {{> allData}}
 
-    {{#each results}}
-      <p>{{name}}</p>
-    {{/each}}
+    <div class="name-list">
+      {{#each results}}
+        <p>{{name}}</p>
+      {{/each}}
+    </div>
 
   </div>
 </template>

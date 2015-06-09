@@ -2,10 +2,13 @@
 
 - [x] bootstrap some fake data into neo4j
   - [ ] figure out the best way to add crimes to database (as a node, or as a property on an edge?)
+- [ ] ability to add data
+  - [ ] with labels
+  - [ ] ability to add labels after-the-fact
 - [ ] search
-  - [ ] tags
-  - [ ] names
-  - [ ] types
+  - [x] tags
+  - [x] names
+  - [x] types
   - [ ] custom/advanced queries
     - [ ] shortest path between two nodes
     - [ ] largest clique
@@ -17,6 +20,8 @@
   - [ ] hover to show details
   - [ ] click on a button to fetch more from that node and add to the graph
   - [ ] display link type on graph
+
+
 
 So how is this all going to work / look?
 
