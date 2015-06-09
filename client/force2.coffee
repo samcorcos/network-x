@@ -10,14 +10,15 @@ Template.main.rendered = ->
   width = 900
   height = 600
   radius = 20
+  padding = 1
 
   # Setting color to 20
   color = d3.scale.category20()
 
   # Set up force layout
   force = d3.layout.force()
-    .charge(-500)
-    .linkDistance(80)
+    .charge(-400)
+    .linkDistance(50)
     .size([width, height])
 
   # Append SVG
@@ -64,6 +65,28 @@ Template.main.rendered = ->
     .style("stroke", "#999")
     .style("opacity", "0.6")
 
+  collide = (alpha) ->
+    quadtree = d3.geom.quadtree(graph.nodes)
+    (d) ->
+      rb = 2 * radius + padding
+      nx1 = d.x - rb
+      nx2 = d.x + rb
+      ny1 = d.y - rb
+      ny2 = d.y + rb
+      quadtree.visit (quad, x1, y1, x2, y2) ->
+        if quad.point and quad.point != d
+          x = d.x - (quad.point.x)
+          y = d.y - (quad.point.y)
+          l = Math.sqrt(x * x + y * y)
+          if l < rb
+            l = (l - rb) / l * alpha
+            d.x -= x *= l
+            d.y -= y *= l
+            quad.point.x += x
+            quad.point.y += y
+        x1 > nx2 or x2 < nx1 or y1 > ny2 or y2 < ny1
+      return
+
   force.on 'tick', ->
     link.attr('x1', (d) ->
       d.source.x
@@ -77,4 +100,5 @@ Template.main.rendered = ->
       d.x
     ).attr 'cy', (d) ->
       d.y
+    node.each(collide(0.5))
     return
