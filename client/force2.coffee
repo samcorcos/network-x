@@ -5,19 +5,19 @@ Template.main.rendered = ->
     if Session.get "isGraph", true
       createGraph()
 
-
 @createGraph = ->
   # Constants
   width = 900
   height = 600
+  radius = 20
 
   # Setting color to 20
   color = d3.scale.category20()
 
   # Set up force layout
   force = d3.layout.force()
-    .charge(-120)
-    .linkDistance(30)
+    .charge(-500)
+    .linkDistance(80)
     .size([width, height])
 
   # Append SVG
@@ -26,7 +26,6 @@ Template.main.rendered = ->
     .attr("preserveApectRatio", "xMidYMid meet")
 
   graph = Session.get "graph"
-  console.log "meep",graph
 
   force.nodes(graph.nodes)
     .links(graph.links)
@@ -36,6 +35,7 @@ Template.main.rendered = ->
     .data(graph.links)
     .enter().append('line')
     .attr('class', 'link')
+    .style("marker-end",  "url(#suit)")
     .style 'stroke-width', (d) ->
       2 # Math.sqrt(d.value) # TODO we don't have weight, but we can add it!
 
@@ -43,10 +43,26 @@ Template.main.rendered = ->
     .data(graph.nodes)
     .enter().append('circle')
     .attr('class', 'node')
-    .attr('r', 8)
+    .attr('r', radius)
     .style('fill', (d) ->
       color(d.label)
     ).call(force.drag)
+
+  svg.append("defs").selectAll("marker")
+    .data(["suit", "licensing", "resolved"])
+  .enter().append("marker")
+    .attr("id", (d) ->
+      d
+    ).attr("viewBox", "0 -5 10 10")
+    .attr("refX", 25)
+    .attr("refY", 0)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto")
+  .append("path")
+    .attr("d", "M0,-5L10,0L0,5 L10,0 L0, -5")
+    .style("stroke", "#999")
+    .style("opacity", "0.6")
 
   force.on 'tick', ->
     link.attr('x1', (d) ->
