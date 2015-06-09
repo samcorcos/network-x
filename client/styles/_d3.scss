@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
 
 .node {
     stroke: #ddd;
@@ -8,5 +9,7 @@
     stroke-opacity: .6;
 }
 .node {
-  
+  text {
+    font-family: 'Open Sans', sans-serif;
+  }
 }
