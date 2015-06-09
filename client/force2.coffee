@@ -7,17 +7,6 @@ Template.main.rendered = ->
 
 
 
-# //Set up the force layout
-# var force = d3.layout.force()
-#     .charge(-120)
-#     .linkDistance(30)
-#     .size([width, height]);
-#
-# //Append a SVG to the body of the html page. Assign this SVG as an object to svg
-# var svg = d3.select("body").append("svg")
-#     .attr("width", width)
-#     .attr("height", height);
-#
 # //Read the data from the mis element
 # var mis = document.getElementById('mis').innerHTML;
 # graph = JSON.parse(mis);
@@ -106,7 +95,7 @@ Template.main.rendered = ->
     .style 'stroke-width', (d) ->
       2 # Math.sqrt(d.value) # TODO we don't have weight, but we can add it!
 
-  node = svg.slectAll('.node')
+  node = svg.selectAll('.node')
     .data(graph.nodes)
     .enter().append('circle')
     .attr('class', 'node')

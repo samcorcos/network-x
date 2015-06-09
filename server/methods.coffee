@@ -16,11 +16,11 @@ Meteor.methods
 
   getGraph: () ->
     # Returns all data in the graph
-    x = Neo4j.query "MATCH (a)-[r]->(b) RETURN a,labels(a),id(a),type(r),b,labels(b),id(b)" # TODO if we want to add things like "date of creation", this is where we do it
-    links = createLinks(x)
-
     y = Neo4j.query "MATCH (a) RETURN a,labels(a),id(a)"
     nodes = createNodes(y)
+
+    x = Neo4j.query "MATCH (a)-[r]->(b) RETURN id(a),type(r),id(b)" # TODO if we want to add things like "date of creation", this is where we do it
+    links = createLinks(x, y[2])
 
     graph =
       links: links
