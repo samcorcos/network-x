@@ -1,8 +1,15 @@
 Template.main.rendered = ->
   Session.setDefault "isGraph", false
+  Session.setDefault "graph", []
+
+  # Tracker.autorun (c) ->
+  #   if Session.get "isGraph" is true
+  #     createGraph()
 
   Tracker.autorun (c) ->
-    if Session.get "isGraph", true
+    if Session.get('graph').length != 0
+      Session.get 'graph'
+      console.log "running"
       createGraph()
 
 @createGraph = ->

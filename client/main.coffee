@@ -1,9 +1,6 @@
 Template.main.helpers
   isGraph: -> Session.get "isGraph"
 
-Template.sideNav.rendered = ->
-  Session.setDefault "results", []
-
 Template.sideNav.helpers
   results: ->
     Session.get "graph"
@@ -13,6 +10,7 @@ Template.personSearch.events
     query = t.find('input').value
     Meteor.call "searchPeople", query, (err, res) ->
       Session.set "graph", res
+      Session.set 'isGraph', true
     $('input').val('')
 
 Template.companySearch.events
@@ -33,4 +31,3 @@ Template.allData.events
     Meteor.call "getGraph", (err, res) ->
       Session.set "graph", res
       Session.set "isGraph", true
-      console.log res

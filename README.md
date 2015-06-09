@@ -16,6 +16,7 @@
 - [ ] d3 graph
   - [ ] hover to show details
   - [ ] click on a button to fetch more from that node and add to the graph
+  - [ ] display link type on graph
 
 So how is this all going to work / look?
 
