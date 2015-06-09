@@ -4,6 +4,10 @@
 
 <template name="main">
   <div id="network"></div>
+  {{#if isGraph}}
+  {{else}}
+    <h2>Select data to visualize</h2>
+  {{/if}}
   {{> sideNav}}
 </template>
 
@@ -23,6 +27,7 @@
 
 <template name="personSearch">
   <div class="input-group">
+    <p>Search by Person</p>
     <input type="text" id="person-name" placeholder="Search by name">
     <button>Submit</button>
   </div>
@@ -30,9 +35,10 @@
 
 <template name="companySearch">
   <div class="input-group">
+    <p>Search by Company</p>
     <input type="text" id="company-name" placeholder="Search by name">
     <button id="cn-submit">Submit</button>
-    <div style="height:2rem;"></div>
+    <div style="height:1rem;"></div>
     <input type="text" id="company-industry" placeholder="Search by industry">
     <button id="ci-submit">Submit</button>
   </div>

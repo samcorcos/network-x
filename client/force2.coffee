@@ -1,21 +1,35 @@
 Template.main.rendered = ->
-  # Constants
-  width = 500
-  height = 500
+  Session.setDefault "isGraph", false
 
-  # Setting color to 20
-  color = d3.scale.category20()
+  createGraph = ->
+    console.log "running createGraph"
+    # Constants
+    width = 500
+    height = 500
 
-  # Set up force layout
-  force = d3.layout.force()
-    .charge(-120)
-    .linkDistance(30)
-    .size([width, height])
+    # Setting color to 20
+    color = d3.scale.category20()
 
-  # Append SVG
-  svg = d3.select('#network').append('svg')
-    .attr('width', width)
-    .attr('height', height)
+    # Set up force layout
+    force = d3.layout.force()
+      .charge(-120)
+      .linkDistance(30)
+      .size([width, height])
+
+    # Append SVG
+    svg = d3.select('#network').append('svg')
+      .attr('width', width)
+      .attr('height', height)
+
+
+
+
+  Tracker.autorun (c) ->
+    if Session.get "isGraph", true
+      console.log "tracker?"
+      createGraph()
+
+
 
 #
 # //Read the data from the mis element

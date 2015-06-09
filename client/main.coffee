@@ -1,3 +1,6 @@
+Template.main.helpers
+  isGraph: -> Session.get "isGraph"
+
 Template.sideNav.rendered = ->
   Session.setDefault "results", []
 
