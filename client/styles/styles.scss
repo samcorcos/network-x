@@ -18,3 +18,9 @@
   border: 1px solid #666;
   border-radius: 3px;
 }
+
+.network-wrapper {
+  width: calc(100vw - 400px);
+  max-height: 100vh;
+  overflow: hidden;
+}
