@@ -1,6 +1,7 @@
 Template.main.rendered = ->
   Session.setDefault "isGraph", false
   Session.setDefault "graph", []
+  Session.setDefault 'result', []
 
   # Tracker.autorun (c) ->
   #   if Session.get "isGraph" is true
