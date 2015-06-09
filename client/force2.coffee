@@ -61,12 +61,9 @@ Template.main.rendered = ->
     .style 'fill', (d) -> color(d.label)
 
   node.append('text')
-    .attr('dx', 0)
-    .attr('dy', 0)
+    .attr('dx', '-1.8em')
+    .attr('dy', '0.35em')
     .text (d) -> d.name or d.country
-    .style('stroke', 'black')
-
-
 
   svg.append("defs").selectAll("marker")
     .data(["suit", "licensing", "resolved"])
