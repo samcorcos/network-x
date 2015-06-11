@@ -9,7 +9,8 @@ Template.personSearch.events
   'click button': (e,t) ->
     query = t.find('input').value
     Meteor.call "searchPeople", query, (err, res) ->
-      Session.set "result", res
+      Session.set "graph", res
+      Session.set "isGraph", true
     $('input').val('')
 
 Template.companySearch.events

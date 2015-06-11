@@ -21,14 +21,6 @@
   - [ ] click on a button to fetch more from that node and add to the graph
   - [ ] display link type on graph
 
-##Daily Goals
-
-###10 June 2015
-
-- [ ] Search and filter data for visualization
-- [ ] Change degree of separation after filter
-
-Everything is going to be done using Meteor methods. There will need to be a spinner in a corner to you know if the app is working on a method so you dont spam the shit of the server.
 
 # Getting Started
 

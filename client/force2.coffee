@@ -3,10 +3,6 @@ Template.main.rendered = ->
   Session.setDefault "graph", []
   Session.setDefault 'result', []
 
-  # Tracker.autorun (c) ->
-  #   if Session.get "isGraph" is true
-  #     createGraph()
-
   Tracker.autorun (c) ->
     if Session.get('graph').length != 0
       Session.get 'graph'
@@ -46,16 +42,6 @@ Template.main.rendered = ->
     .style("marker-end",  "url(#suit)")
     .style 'stroke-width', (d) ->
       2 # Math.sqrt(d.value) # TODO we don't have weight, but we can add it!
-
-  ## This works, but doesn't have labels ##
-  # node = svg.selectAll('.node')
-  #   .data(graph.nodes)
-  #   .enter().append('circle')
-  #   .attr('class', 'node')
-  #   .attr('r', radius)
-  #   .style('fill', (d) ->
-  #     color(d.label)
-  #   ).call(force.drag)
 
   node = svg.selectAll('.node')
     .data(graph.nodes)
