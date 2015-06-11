@@ -50,13 +50,22 @@ Meteor.methods
       x = Neo4j.query "MATCH (a:Company)--(b) WHERE '#{industry}' IN a.industry RETURN a,b"
       return removeDuplicates(x[0], x[1])
 
+
+
+
+
+
+
+
+
+
   getGraph: () ->
-    # Returns all data in the graph
-    y = Neo4j.query "MATCH (a) RETURN a,labels(a),id(a)"
-    nodes = createNodes(y)
+    ## Returns all data in the graph ##
+    nodes = Neo4j.query "MATCH (a) RETURN {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
 
     x = Neo4j.query "MATCH (a)-[r]->(b) RETURN id(a),type(r),id(b)" # TODO if we want to add things like "date of creation", this is where we do it
-    links = createLinks(x, y[2])
+
+    links = createLinks(x, R.pluck('id')(nodes))
 
     graph =
       links: links

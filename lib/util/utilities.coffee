@@ -18,15 +18,6 @@
     linksArray.push temp
   return linksArray
 
-@createNodes = (x) ->
-  nodesArray = []
-  for nodeA, i in x[0]
-    a = x[0][i]
-    a.label = x[1][i][0]
-    a.id = x[2][i]
-    nodesArray.push a
-  return nodesArray
-
 @getUnique = (value, index, self) ->
   self.indexOf(value) == index
 
