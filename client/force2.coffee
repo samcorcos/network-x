@@ -10,7 +10,6 @@ Template.main.rendered = ->
   Tracker.autorun (c) ->
     if Session.get('graph').length != 0
       Session.get 'graph'
-      console.log "running"
       createGraph()
 
 @createGraph = ->

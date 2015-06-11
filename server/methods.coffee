@@ -57,15 +57,16 @@ Meteor.methods
 
 
 
-
+  # It currently has an array with source, target, and type.
+  # But, those values relate to ids, not to positions in the "nodes" array
 
   getGraph: () ->
     ## Returns all data in the graph ##
     nodes = Neo4j.query "MATCH (a) RETURN {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
 
-    x = Neo4j.query "MATCH (a)-[r]->(b) RETURN id(a),type(r),id(b)" # TODO if we want to add things like "date of creation", this is where we do it
+    linkIds = Neo4j.query "MATCH (a)-[r]->(b) RETURN {source:id(a), target:id(b), type:type(r)}"
 
-    links = createLinks(x, R.pluck('id')(nodes))
+    links = createLinks(linkIds, R.pluck('id')(nodes))
 
     graph =
       links: links
