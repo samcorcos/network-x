@@ -1,13 +1,4 @@
-Template.main.rendered = ->
-  Session.setDefault "graph", {nodes:[], links:[]}
-  network = new Graph()
-
-  Tracker.autorun (c) ->
-    graph = -> Session.get 'graph'
-    network = new Graph()               ## TODO Right now this is kind of a hack... It just destroys the old svg and creates a new one every time.
-    network.update(Session.get 'graph') ## TODO the data is updating, but it isn't displaying... What to do...
-
-class Graph
+class @Graph
   # Constants
   width = 900
   height = 600
@@ -40,7 +31,7 @@ class Graph
       .data(graph.links)
       .enter().append('line')
       .attr('class', 'link')
-      .style("marker-end",  "url(#suit)")
+      .style("marker-end",  "url(#suit)") ## TODO this was a copy and paste. should be fixed later
       .style 'stroke-width', (d) ->
         2 # Math.sqrt(d.value) # TODO we don't have weight, but we can add it!
 
@@ -52,15 +43,18 @@ class Graph
 
     node.append('circle')
       .attr('r', radius)
+      .attr('data-id', (d) -> d.id)
+      .attr('data-label', (d) -> d.label)
+      .attr('data-name', (d) -> d.name)
       .style 'fill', (d) -> color(d.label)
 
     node.append('text')
       .attr('dx', '-1.8em')
       .attr('dy', '0.35em')
-      .text (d) -> d.name or d.country
+      .text (d) -> d.name
 
     @svg.append("defs").selectAll("marker")
-      .data(["suit", "licensing", "resolved"])
+      .data(["suit"])                       ## TODO There's something weird going on here. I just copied and pasted
       .enter().append("marker")
         .attr("id", (d) ->
           d
