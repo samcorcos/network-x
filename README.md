@@ -20,6 +20,7 @@
   - [ ] hover to show details
   - [ ] click on a button to fetch more from that node and add to the graph
   - [ ] display link type on graph
+  - [ ] get data to update responsively (rather than the current hack)
 
 
 # Getting Started

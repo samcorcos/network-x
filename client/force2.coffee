@@ -4,8 +4,8 @@ Template.main.rendered = ->
 
   Tracker.autorun (c) ->
     graph = -> Session.get 'graph'
-    network.update(Session.get 'graph')
-    console.log "running"
+    network = new Graph()               ## TODO Right now this is kind of a hack... It just destroys the old svg and creates a new one every time.
+    network.update(Session.get 'graph') ## TODO the data is updating, but it isn't displaying... What to do...
 
 class Graph
   # Constants
@@ -16,6 +16,8 @@ class Graph
   color = d3.scale.category20()
 
   constructor: () ->
+    $( "svg" ).remove()
+
     # Append SVG
     @svg = d3.select('#network').append('svg')
       .attr('viewBox', "0 0 #{width} #{height}")
