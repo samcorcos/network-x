@@ -1,3 +1,10 @@
+
+# filter by tags
+
+# figure out the "expand-by-one" option
+
+# get more data onto nodes for click event to display with popover
+
 # To Do
 
 - [x] bootstrap some fake data into neo4j
@@ -23,6 +30,17 @@
   - [ ] click on a button to fetch more from that node and add to the graph
   - [ ] display link type on graph
   - [ ] get data to update responsively (rather than the current hack)
+
+
+get live filtering working to allow for links
+
+filter by tags
+
+figure out "expand-by-one" option on click
+
+get more data into nodes (description) for popover display
+
+
 
 
 # Getting Started

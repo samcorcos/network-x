@@ -1,5 +1,6 @@
 Template.main.rendered = ->
   Session.setDefault "graph", {nodes:[], links:[]}
+  Session.setDefault 'creatingNode', false
   network = new Graph()
   Meteor.call 'getTags', (err,res) ->
     Session.set 'tags', res
@@ -9,11 +10,7 @@ Template.main.rendered = ->
     network = new Graph()               ## TODO Right now this is kind of a hack... It just destroys the old svg and creates a new one every time.
     network.update(Session.get 'graph') ## TODO the data is updating, but it isn't displaying... What to do...
 
-    # filter by tags
 
-    # figure out the "expand-by-one" option
-
-    # get more data onto nodes for click event to display with popover
 
 Template.main.events
   'click .node': (e,t) ->
@@ -56,3 +53,20 @@ Template.allData.events
   'click button': (e,t) ->
     Meteor.call "getGraph", (err, res) ->
       Session.set "graph", res
+
+
+
+Template.createNode.events
+  'change #node-label': (e,t) ->
+    Session.set "creatingNode", true
+
+  'click #create-node': (e,t) ->
+    label = t.find('#node-label').value
+    name = t.find('#new-node-name').value
+    Meteor.call 'createNode', label, name, (err,res) ->
+      console.log err if err
+    $('#node-label').val('')
+    $('#new-node-name').val('')
+
+Template.createNode.helpers
+  creatingNode: -> Session.get 'creatingNode'
