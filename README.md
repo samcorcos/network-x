@@ -7,6 +7,8 @@
   - [ ] ability to add labels after-the-fact
 - [ ] search
   - [x] tags
+    - [x] get rid of hardcoded tags
+    - [ ] filter by tags
   - [x] names
   - [x] types
   - [ ] custom/advanced queries

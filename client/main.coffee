@@ -9,7 +9,6 @@ Template.main.rendered = ->
     network = new Graph()               ## TODO Right now this is kind of a hack... It just destroys the old svg and creates a new one every time.
     network.update(Session.get 'graph') ## TODO the data is updating, but it isn't displaying... What to do...
 
-    # no longer hard-code tags
     # filter by tags
 
     # figure out the "expand-by-one" option
@@ -22,14 +21,33 @@ Template.main.events
 
 
 
+
+submitSearch = (e,t) ->
+  query = t.find('input#search-query').value
+  index = t.find('select').value
+  tags = []
+  ## Find all the tags that are checked on the DOM ##
+  $('input.tag:checked').each -> tags.push $(this).attr('data-tag')
+
+  ## Call search with all inputs ##
+  Meteor.call "search", query, index, tags, (err, res) ->
+    Session.set 'graph', res
+
+  ## Clear inputs ##
+  $('input').val('')
+  $('select').val('')
+  $('input.tag').removeAttr('checked')
+
+
 Template.search.events
+  ## TODO there has to be a way to combine these two... ##
   'click button#submit-search': (e,t) ->
-    query = t.find('input#search-query').value
-    index = t.find('select').value
-    Meteor.call "search", query, index, (err, res) ->
-      Session.set 'graph', res
-    $('input').val('')
-    $('select').val('')
+    submitSearch(e,t)
+
+  'keyup #search-query': (e,t) ->
+    if e.which is 13
+      submitSearch(e,t)
+
 
 Template.search.helpers
   tags: -> Session.get 'tags'
