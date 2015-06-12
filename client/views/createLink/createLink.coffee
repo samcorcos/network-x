@@ -1,7 +1,11 @@
-searchRow = '<div class="search-row">content here</div>'
+Template.createLink.rendered = ->
+  Session.setDefault 'settingSource', false
 
 Template.createLink.events
   'focusin #source': (e,t) ->
-    $('#source').append(searchRow)
+    Session.set 'settingSource', true
   'focusout #source': (e,t) ->
-    console.log e.which
+    Session.set 'settingSource', false
+
+Template.createLink.helpers
+  settingSource: -> Session.get 'settingSource'

@@ -36,12 +36,18 @@
 }
 
 .search-row {
-  height: 500px;
-  width: 500px;
-  z-index: 100;
+  min-height: 100px;
+  max-height: 150px;
+  overflow: scroll;
+  width: 130px;
   background-color: red;
-  position: fixed;
-  top: 0px;
+  position: absolute;
+  top: 19px;
   left: 0px;
+}
 
+.search-container {
+    width: 500px;
+    height: auto;
+    position: relative
 }
