@@ -34,11 +34,11 @@ seed = ->
   Neo4j.query "MERGE (a:Person {name:'Person Z'})"
 
   # Creating 5 companies: 2 industries
-  Neo4j.query "MERGE (a:Company {name:'Company A', industry:['oil']})"
-  Neo4j.query "MERGE (a:Company {name:'Company B', industry:['oil']})"
-  Neo4j.query "MERGE (a:Company {name:'Company C', industry:['finance']})"
-  Neo4j.query "MERGE (a:Company {name:'Company D', industry:['finance']})"
-  Neo4j.query "MERGE (a:Company {name:'Company E', industry:['finance']})"
+  Neo4j.query "MERGE (a:Company {name:'Company A', tags:['oil']})"
+  Neo4j.query "MERGE (a:Company {name:'Company B', tags:['oil']})"
+  Neo4j.query "MERGE (a:Company {name:'Company C', tags:['finance']})"
+  Neo4j.query "MERGE (a:Company {name:'Company D', tags:['finance']})"
+  Neo4j.query "MERGE (a:Company {name:'Company E', tags:['finance']})"
 
   # Creating 6 jurisdictions: 4 countries, 3 states, 2 cities
   Neo4j.query "MERGE (a:Jurisdiction {name:'United States'})"
@@ -47,8 +47,8 @@ seed = ->
   Neo4j.query "MERGE (a:Jurisdiction {name:'Ukraine'})"
 
   # Creating 2 organizations: 2 industries
-  Neo4j.query "MERGE (a:Organization {name:'Organization A', industry:['politics']})"
-  Neo4j.query "MERGE (a:Organization {name:'Organization B', industry:['terrorism','drug trafficking']})"
+  Neo4j.query "MERGE (a:Organization {name:'Organization A', tags:['politics']})"
+  Neo4j.query "MERGE (a:Organization {name:'Organization B', tags:['terrorism','drug trafficking']})"
 
   # Creating edges between all people and their jurisdictions
   Neo4j.query "MATCH (a:Person {name:'Person A'}) MATCH (b:Jurisdiction {name:'United States'}) MERGE (a)-[r:CITIZEN]->(b)"

@@ -27,14 +27,27 @@ Meteor.methods
 
       return graph = { links:links, nodes:nodes }
 
+  getTags: -> Neo4j.query "MATCH (a) UNWIND a.tags AS x RETURN DISTINCT x"
+
+
   getGraph: () ->
     ## Returns all data in the graph ##
     nodes = Neo4j.query "MATCH (a) RETURN {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
 
     linkIds = Neo4j.query "MATCH (a)-[r]->(b) RETURN {source:id(a), target:id(b), type:type(r)} as links"
 
-    ## createLinks takes in a link with ids and the full node list, then converts
-    ## it to something that D3 can use: array indeces
+    ## createLinks takes in a link with ids and the full node list, then converts it to something that D3 can use: array indeces
     links = createLinks linkIds, R.pluck('id')(nodes)
 
     return graph = { links:links, nodes:nodes }
+    #
+    #
+    # if industry
+    #   nodesA = Neo4j.query "MATCH (a:Company)-[]-() WHERE '#{industry}' in a.industry RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
+    #   nodesB = Neo4j.query "MATCH (a:Company)-[]-(b) WHERE '#{industry}' in a.industry RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
+    #   nodes = nodesA.concat(nodesB) ## TODO there must be a way to do this in one query...
+    #
+    #   linkIds = Neo4j.query "MATCH (a:Company)-[r]-(b) WHERE '#{industry}' in a.industry RETURN {source:id(a), target:id(b), type:type(r)} as links"
+    #   links = createLinks linkIds, R.pluck('id')(nodes)
+    #
+    #   return graph = { links:links, nodes:nodes }

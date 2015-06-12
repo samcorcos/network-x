@@ -13,8 +13,6 @@
 <template name="sideNav">
   <div id="side-nav">
     {{> search}}
-<!--     {{> personSearch}}
-{{> companySearch}} -->
     {{> allData}}
   </div>
 </template>
@@ -32,37 +30,17 @@
       </select>
     </p>
     <div>
-      <input type="text" id="search-query" placeholder="Search by name">
-      <button id="submit-search">Submit</button>
+      {{#each tags}}
+        <p><input type="checkbox"> {{capitalize this}}</p>
+      {{/each}}
     </div>
     <div>
-      <p><input type="checkbox"> Oil</p>
-      <p><input type="checkbox"> Finance</p>
-      <p><input type="checkbox"> Something</p>
-      <p><input type="checkbox"> Something Else</p>
+      <input type="text" id="search-query" placeholder="Name (optional)">
+      <button id="submit-search">Submit</button>
     </div>
 
   </div>
 </template>
-
-<!-- <template name="personSearch">
-  <div class="input-group">
-    <p>Search by Person</p>
-    <input type="text" id="person-name" placeholder="Search by name">
-    <button>Submit</button>
-  </div>
-</template>
-
-<template name="companySearch">
-  <div class="input-group">
-    <p>Search by Company</p>
-    <input type="text" id="company-name" placeholder="Search by name">
-    <button id="cn-submit">Submit</button>
-    <div style="height:1rem;"></div>
-    <input type="text" id="company-industry" placeholder="Search by industry">
-    <button id="ci-submit">Submit</button>
-  </div>
-</template> -->
 
 <template name="allData">
   <div class="input-group">
