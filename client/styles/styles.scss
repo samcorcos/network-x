@@ -40,15 +40,31 @@
   max-height: 150px;
   overflow: scroll;
   width: 130px;
-  background-color: red;
+  background-color: white;
   position: absolute;
   top: 19px;
   left: 0px;
   z-index: 1;
+  ul {
+    padding: 0;
+    margin: 0;
+    li {
+
+      list-style-type: none;
+      &:hover {
+        background-color: #ccc;
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .search-container {
   width: 500px;
   height: auto;
   position: relative
+}
+
+.hide {
+  display: none;
 }

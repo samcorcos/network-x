@@ -1,18 +1,19 @@
 Template.createLink.rendered = ->
-  Session.setDefault 'settingSource', false
-  Session.setDefault 'settingTarget', false
 
 Template.createLink.events
-  'focusin #source': (e,t) ->
-    Session.set 'settingSource', true
-  'focusout #source': (e,t) ->
-    Session.set 'settingSource', false
+  'focusin #source, focusin #target': (e,t) ->
+    $(e.currentTarget).next().toggleClass('hide')
+  'focusout #source, focusout #target': (e,t) ->
+    $(e.currentTarget).next().toggleClass('hide')
 
-  'focusin #target': (e,t) ->
-    Session.set 'settingTarget', true
-  'focusout #target': (e,t) ->
-    Session.set 'settingTarget', false
+  'keyup #source': (e,t) ->
+    Meteor.call 'getNodes', t.find('#source').value, (err,res) ->
+      Session.set 'nodes', res
+
+  'click li': (e,t) ->
+    console.log "clicked?"
+    console.log this
+    console.log e.currentTarget
 
 Template.createLink.helpers
-  settingSource: -> Session.get 'settingSource'
-  settingTarget: -> Session.get 'settingTarget'
+  nodes: -> Session.get 'nodes'

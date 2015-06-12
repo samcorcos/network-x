@@ -54,6 +54,6 @@ Meteor.methods
 
   createNode: (label, name, tags...) -> Neo4j.query "MERGE (a:#{label} {name:'#{name}'})"
 
-  liveFilter: (input) ->
-    ## This should query by name with regex starting with input ##
-    ## Should run this method on keyup ##
+  getNodes: (query) ->
+    ## This queries by name with regex starting with input ##
+    Neo4j.query "MATCH (a) WHERE a.name =~ '(?i)#{query}.+' RETURN DISTINCT {name:a.name} as nodes"

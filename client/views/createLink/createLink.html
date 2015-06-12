@@ -3,9 +3,13 @@
     <h4>Create Link</h4>
     <div class="search-container">
       <input type="text" id="source" placeholder="Source">
-      {{#if settingSource}}
-      <div class="search-row">content here</div>
-      {{/if}}
+      <div class="search-row hide">
+        <ul>
+          {{#each nodes}}
+          <li>{{this.name}}</li>
+          {{/each}}
+        </ul>
+      </div>
     </div>
 
     <div>
@@ -15,9 +19,7 @@
     </div>
     <div class="search-container">
       <input type="text" id="target" placeholder="Target">
-      {{#if settingTarget}}
-      <div class="search-row">content here</div>
-      {{/if}}
+      <div class="search-row hide">content here</div>
     </div>
     <button id="create-link">Create link</button>
   </div>
