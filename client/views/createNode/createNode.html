@@ -1,0 +1,19 @@
+<template name="createNode">
+  <div class="input-group">
+    <h4>Create Node</h4>
+    <select id="node-label">
+      <option value="" disabled selected>Select Label</option>
+      <option value="Person">Person</option>
+      <option value="Company">Company</option>
+      <option value="Jurisdiction">Jurisdiction</option>
+    </select>
+
+    {{#if creatingNode}}
+      <p>
+        <input type="text" id="new-node-name" placeholder="Create new node">
+        <button id="create-node">Create node</button>
+      </p>
+    {{/if}}
+
+  </div>
+</template>

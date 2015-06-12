@@ -34,3 +34,14 @@
   padding: 2rem;
   padding-top: 1rem;
 }
+
+.search-row {
+  height: 500px;
+  width: 500px;
+  z-index: 100;
+  background-color: red;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+
+}

@@ -34,6 +34,8 @@
 
 get live filtering working to allow for links
 
+get all link types from database
+
 filter by tags
 
 figure out "expand-by-one" option on click
