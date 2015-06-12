@@ -30,6 +30,7 @@ class @Graph
     link = @svg.selectAll('.link')
       .data(graph.links)
       .enter().append('line')
+      .attr('data-type', (d) -> d.type)
       .attr('class', 'link')
       .style("marker-end",  "url(#suit)") ## TODO this was a copy and paste. should be fixed later
       .style 'stroke-width', (d) ->
