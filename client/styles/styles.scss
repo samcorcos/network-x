@@ -44,10 +44,11 @@
   position: absolute;
   top: 19px;
   left: 0px;
+  z-index: 1;
 }
 
 .search-container {
-    width: 500px;
-    height: auto;
-    position: relative
+  width: 500px;
+  height: auto;
+  position: relative
 }

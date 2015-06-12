@@ -13,7 +13,12 @@
         <option value="">Link type...each loop</option>
       </select>
     </div>
-    <div><input type="text" id="target" placeholder="Target"></div>
+    <div class="search-container">
+      <input type="text" id="target" placeholder="Target">
+      {{#if settingTarget}}
+      <div class="search-row">content here</div>
+      {{/if}}
+    </div>
     <button id="create-link">Create link</button>
   </div>
 </template>
