@@ -1,10 +1,12 @@
 Template.createLink.rendered = ->
+  Session.setDefault 'nodes', [{name:'Search...'}]
 
 Template.createLink.events
   'focusin #source, focusin #target': (e,t) ->
     $(e.currentTarget).next().toggleClass('hide')
   'focusout #source, focusout #target': (e,t) ->
     $(e.currentTarget).next().toggleClass('hide')
+    Session.set 'nodes', [{name:'Search...'}]
 
   'keyup #source': (e,t) ->
     Meteor.call 'getNodes', t.find('#source').value, (err,res) ->
