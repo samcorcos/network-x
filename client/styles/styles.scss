@@ -2,6 +2,10 @@
 
 @import "d3";
 
+body {
+  font-family: 'Open Sans'
+}
+
 #side-nav {
   width: 400px;
   height: 100vh;
@@ -67,4 +71,12 @@
 
 .hide {
   display: none;
+}
+
+.tooltip {
+  position: fixed;
+  padding: 0 10px;
+  background: black;
+  color: white;
+  z-index: 105;
 }

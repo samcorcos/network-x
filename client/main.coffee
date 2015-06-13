@@ -7,11 +7,11 @@ Template.main.rendered = ->
   Meteor.call 'getLinkTypes', (err,res) ->
     Session.set 'linkTypes', res
 
+
   Tracker.autorun (c) ->
     graph = -> Session.get 'graph'
     network = new Graph()               ## TODO Right now this is kind of a hack... It just destroys the old svg and creates a new one every time.
     network.update(Session.get 'graph') ## TODO the data is updating, but it isn't displaying... What to do...
-
 
 
 Template.main.events
