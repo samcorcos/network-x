@@ -20,30 +20,6 @@
 </template>
 
 
-<template name="search">
-  <div class="input-group">
-    <p>
-      Search by:
-      <select id="search-by">
-        <option value="" selected>All</option>
-        <option value="Person">Person</option>
-        <option value="Company">Company</option>
-        <option value="Jurisdiction">Jurisdiction</option>
-      </select>
-    </p>
-    <div>
-      {{#each tags}}
-        <p><input type="checkbox" class="tag" data-tag="{{this}}"> {{capitalize this}}</p>
-      {{/each}}
-    </div>
-    <div>
-      <input type="text" id="search-query" placeholder="Name (optional)">
-      <button id="submit-search">Submit</button>
-    </div>
-
-  </div>
-</template>
-
 <template name="allData">
   <div class="input-group">
     <button>Get all data</button>

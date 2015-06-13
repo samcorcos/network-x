@@ -32,13 +32,12 @@
   - [ ] get data to update responsively (rather than the current hack)
 
 
-get live filtering working to allow for links
-
-get all link types from database
 
 filter by tags
 
 figure out "expand-by-one" option on click
+
+shortest path between two nodes?
 
 get more data into nodes (description) for popover display
 
