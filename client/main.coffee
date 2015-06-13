@@ -4,6 +4,8 @@ Template.main.rendered = ->
   network = new Graph()
   Meteor.call 'getTags', (err,res) ->
     Session.set 'tags', res
+  Meteor.call 'getLinkTypes', (err,res) ->
+    Session.set 'linkTypes', res
 
   Tracker.autorun (c) ->
     graph = -> Session.get 'graph'

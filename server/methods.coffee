@@ -27,9 +27,6 @@ Meteor.methods
 
       return graph = { links:links, nodes:nodes }
 
-  getTags: -> Neo4j.query "MATCH (a) UNWIND a.tags AS x RETURN DISTINCT x"
-
-
   getGraph: () ->
     ## Returns all data in the graph ##
     nodes = Neo4j.query "MATCH (a) RETURN {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
@@ -52,8 +49,12 @@ Meteor.methods
     #
     #   return graph = { links:links, nodes:nodes }
 
+  getTags: -> Neo4j.query "MATCH (a) UNWIND a.tags AS x RETURN DISTINCT x"
+
   createNode: (label, name, tags...) -> Neo4j.query "MERGE (a:#{label} {name:'#{name}'})"
 
-  getNodes: (query) ->
-    ## This queries by name with regex starting with input ##
-    Neo4j.query "MATCH (a) WHERE a.name =~ '(?i)#{query}.+' RETURN DISTINCT {name:a.name} as nodes"
+  getNodes: (query) -> Neo4j.query "MATCH (a) WHERE a.name =~ '(?i)#{query}.+' RETURN DISTINCT {name:a.name} as nodes"
+
+  getLinkTypes: -> Neo4j.query "MATCH ()-[r]-() RETURN DISTINCT type(r)"
+
+  createLink: (source, type, target) -> Neo4j.query "MATCH (a {name:'#{source}'}) MATCH (b {name:'#{target}'}) MERGE (a)-[r:#{type}]-(b)"

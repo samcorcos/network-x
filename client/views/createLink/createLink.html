@@ -6,7 +6,7 @@
       <div class="search-row hide">
         <ul>
           {{#each nodes}}
-          <li>{{this.name}}</li>
+          <li class="source">{{this.name}}</li>
           {{/each}}
         </ul>
       </div>
@@ -14,12 +14,21 @@
 
     <div>
       <select id="link-type">
-        <option value="">Link type...each loop</option>
+        <option value="" selected disabled>Link type</option>
+        {{#each linkTypes}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
       </select>
     </div>
     <div class="search-container">
       <input type="text" id="target" placeholder="Target">
-      <div class="search-row hide">content here</div>
+      <div class="search-row hide">
+        <ul>
+          {{#each nodes}}
+          <li class="target">{{this.name}}</li>
+          {{/each}}
+        </ul>
+      </div>
     </div>
     <button id="create-link">Create link</button>
   </div>
