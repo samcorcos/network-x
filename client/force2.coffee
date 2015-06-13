@@ -18,6 +18,7 @@ class @Graph
     @force = d3.layout.force()
       .charge(-500)
       .linkDistance(50)
+      .linkStrength(0.3)
       .size([width, height])
 
   update: ->
