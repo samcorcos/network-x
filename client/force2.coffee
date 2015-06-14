@@ -48,6 +48,7 @@ class @Graph
       .attr('data-id', (d) -> d.id)
       .attr('data-label', (d) -> d.label)
       .attr('data-name', (d) -> d.name)
+      .attr('data-description', (d) -> d.description)
       .style 'fill', (d) -> color(d.label)
 
     node.append('text')
@@ -109,6 +110,3 @@ class @Graph
 
       # collision detection
       node.each(collide(0.5))
-
-
-   
