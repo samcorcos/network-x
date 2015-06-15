@@ -73,7 +73,7 @@ Meteor.methods
       linkIds = Neo4j.query "MATCH (a)-[r]-(b) WHERE a.name =~ '(?i)#{query}' RETURN {source:id(a), target:id(b), type:type(r)} as links"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
-      return graph = { links:links, nodes:nodes }
+      return graph = { links:links, nodes:nodes}
 
   getGraph: () ->
     ## Returns all data in the graph ##
