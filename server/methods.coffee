@@ -39,6 +39,7 @@ Meteor.methods
       nodesA = Neo4j.query "MATCH (a) WHERE '#{tags}' in a.tags RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
       nodesB = Neo4j.query "MATCH (a)-[]-(b) WHERE '#{tags}' in a.tags RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
       nodes = nodesA.concat(nodesB) ## TODO there must be a way to do this in one query...
+      console.log nodes
 
       linkIds = Neo4j.query "MATCH (a)-[r]-(b) WHERE '#{tags}' in a.tags RETURN {source:id(a), target:id(b), type:type(r)} as links"
       links = createLinks linkIds, R.pluck('id')(nodes)
@@ -69,6 +70,7 @@ Meteor.methods
       nodesA = Neo4j.query "MATCH (a) WHERE a.name =~ '(?i)#{query}' RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
       nodesB = Neo4j.query "MATCH (a)-[]-(b) WHERE a.name =~ '(?i)#{query}' RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
       nodes = nodesA.concat(nodesB) ## TODO there must be a way to do this in one query...
+      console.log nodes
 
       linkIds = Neo4j.query "MATCH (a)-[r]-(b) WHERE a.name =~ '(?i)#{query}' RETURN {source:id(a), target:id(b), type:type(r)} as links"
       links = createLinks linkIds, R.pluck('id')(nodes)

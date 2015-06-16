@@ -36,7 +36,7 @@ seed = ->
   Neo4j.query "MERGE (a:Person {name:'Alejandro Betancourt', tags:['energy', 'finance'], description:'Finance person turned money lanuderer through fake electricity companies.', author:'Simon'})"
   Neo4j.query "MERGE (a:Person {name:'Francisco Convit', tags:['energy'], description:'N/A', author:'Simon'})"
   Neo4j.query "MERGE (a:Person {name:'Pedro Trebbau Lopez', tags:['energy'], description:'N/A', author:'Simon'})"
-  Neo4j.query "MERGE (a:Person {name:'Victor Vargs', tags:['finance'], description:'The Al Capone of Venezuelan money laundering. He is the go-to guy for criminals in Venezuela who want to cut a deal. One of the most powerful men in the country.', author:'Simon'})"
+  Neo4j.query "MERGE (a:Person {name:'Victor Vargas', tags:['finance'], description:'The Al Capone of Venezuelan money laundering. He is the go-to guy for criminals in Venezuela who want to cut a deal. One of the most powerful men in the country.', author:'Simon'})"
   Neo4j.query "MERGE (a:Person {name:'Diego Enrique Lepage', tags:['finance'], description:'N/A', author:'Simon'})"
   Neo4j.query "MERGE (a:Person {name:'Francisco D&rsquo;Agostino', tags:['finance', 'energy'], description:'N/A', author:'Simon'})"
   Neo4j.query "MERGE (a:Person {name:'Luis Oberto', tags:['finance'], description:'Banker in New York.', author:'Simon'})"

@@ -7,6 +7,8 @@
 
 # To Do
 
+- [ ] implement zoom and pan
+- [ ] resize nodes based on sqrt of incoming connections and weight of those connections
 - [x] bootstrap some fake data into neo4j
   - [ ] figure out the best way to add crimes to database (as a node, or as a property on an edge?)
 - [ ] ability to add data

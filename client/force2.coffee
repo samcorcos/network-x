@@ -1,7 +1,7 @@
 class @Graph
   # Constants
   width = 900
-  height = 600
+  height = 700
   radius = 20
   padding = 1
   color = d3.scale.category20()
