@@ -7,35 +7,35 @@
 
 # To Do
 
-- [ ] implement zoom and pan
-- [ ] resize nodes based on sqrt of incoming connections and weight of those connections
 - [x] bootstrap some fake data into neo4j
   - [ ] figure out the best way to add crimes to database (as a node, or as a property on an edge?)
-- [ ] ability to add data
-  - [ ] with labels
+- [x] ability to add data
+  - [x] with labels
   - [ ] ability to add labels after-the-fact
 - [ ] search
   - [x] tags
     - [x] get rid of hardcoded tags
-    - [ ] filter by tags
+    - [x] filter by tags
+    - [ ] tags need to be inclusive, not exclusive
   - [x] names
   - [x] types
   - [ ] custom/advanced queries
+    - [ ] clustering? interesting algorithms?
     - [ ] shortest path between two nodes
     - [ ] largest clique
 - [ ] results
-  - [ ] if more than N results, show in a list
-  - [ ] else show in a graph
-  - [ ] how exactly is this data presented?
+  - [ ] limit results and show warning
+  - [ ] ...allow someone to display all data requested if they want to
 - [x] d3 graph
-  - [ ] hover to show details
-  - [ ] click on a button to fetch more from that node and add to the graph
+  - [ ] click to show details
+  - [ ] click on a button to fetch more from that node and add to the graph or remove node from graph
   - [ ] display link type on graph
   - [ ] get data to update responsively (rather than the current hack)
+  - [ ] implement zoom and pan
+  - [ ] resize nodes based on sqrt of incoming connections and weight of those connections
 
 
 
-filter by tags
 
 figure out "expand-by-one" option on click
 

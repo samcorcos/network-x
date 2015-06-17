@@ -97,3 +97,23 @@ Meteor.methods
   getLinkTypes: -> Neo4j.query "MATCH ()-[r]-() RETURN DISTINCT type(r)"
 
   createLink: (source, type, target) -> Neo4j.query "MATCH (a {name:'#{source}'}) MATCH (b {name:'#{target}'}) MERGE (a)-[r:#{type}]-(b)"
+
+
+#
+#       rows = Neo4j.query """
+#         MATCH (a:#{index})-[]-(b)
+#         WHERE '#{tags}' in a.tags
+#           AND a.name =~ '(?i)#{query}'
+#         RETURN DISTINCT a.name, labels(a)[0], id(a), b.name, labels(b)[0], id(b)
+#       """
+#       rows2nodes = (acc, row) ->
+#         R.concat(acc, [{name:row[0], labels:row[1], id:row[2]}, {name:row[3], labels:row[4], id:row[5]}])
+#         nodes = R.reduce(rows2nodes, [], rows)
+
+
+
+#       reduce = (func, init, list) ->
+#         acc = init
+#         for item in list
+#           acc = func(acc, item)
+#         return acc
