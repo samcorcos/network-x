@@ -43,8 +43,14 @@ shortest path between two nodes?
 
 get more data into nodes (description) for popover display
 
+#TODO
 
+1. Simplify queries in methods using Ramda and map reduce
+2. Iterate over tags array parameter to make tag queries inclusive rather than exclusive
+3. Change the "create links" and "create nodes" to be global within the scope of D3
+  1. Then, create new functions that manipulate these arrays rather than destroy them and create new ones
 
+Doing this will solve: 1) The D3 update problem, 2) The tags problem, 3) The reusability of methods with inputs
 
 # Getting Started
 
