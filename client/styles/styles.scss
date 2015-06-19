@@ -80,3 +80,11 @@ body {
   color: white;
   z-index: 105;
 }
+
+.tag {
+  border: 1px solid #666;
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0 4px 2px 0;
+  margin: 1px;
+}

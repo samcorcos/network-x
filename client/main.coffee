@@ -1,7 +1,4 @@
 Template.main.rendered = ->
-  console.log R.pluck('id')([])
-
-
   Session.setDefault "graph", {nodes:[], links:[]}
   Session.setDefault 'creatingNode', false
   network = new Graph()
