@@ -3,7 +3,7 @@ submitSearch = (e,t) ->
   index = t.find('select').value
   tags = []
   ## Find all the tags that are checked on the DOM ##
-  $('input.tag:checked').each -> tags.push $(this).attr('data-tag')
+  $('span.tag>label>input:checked').each -> tags.push $(this).attr('data-tag')
 
   ## Call search with all inputs ##
   Meteor.call "search", query, index, tags, (err, res) ->
@@ -12,7 +12,7 @@ submitSearch = (e,t) ->
   ## Clear inputs ##
   $('input').val('')
   $('select').val('')
-  $('input.tag').removeAttr('checked')
+  $('span.tag>label>input').removeAttr('checked')
 
 
 Template.search.events
