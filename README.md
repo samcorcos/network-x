@@ -6,10 +6,13 @@
   - [x] with labels
   - [ ] ability to add labels after-the-fact
 - [ ] search
+  - [ ] needs special filter for Jurisdiction
   - [x] tags
     - [x] get rid of hardcoded tags
     - [x] filter by tags
-    - [ ] tags need to be inclusive, not exclusive
+    - [x] tags need to be inclusive, not exclusive—but only in certain circumstances
+      - [x] searches with a name query should be exclusive
+      - [x] searches without a name query should be inclusive
   - [x] names
   - [x] types
   - [ ] custom/advanced queries
@@ -33,16 +36,10 @@ shortest path between two nodes?
 
 get more data into nodes (description) for popover display
 
-#TODO June 19th
+#TODO June 20th
 
-First things first: fix the exclusive tag problem.
-Create a variable that is a string with "and" queries that comes from an iteration over the tags array.
-Then include that variable as an interpolated string into the neo4j query
-Booya
-
-1. Simplify queries in methods using Ramda and map reduce
-2. Iterate over tags array parameter to make tag queries inclusive rather than exclusive
-3. Change the "create links" and "create nodes" to be global within the scope of D3
+1. Special filter for Jurisdiction (exclusive filter)
+2. Change the "create links" and "create nodes" to be global within the scope of D3
   1. Then, create new functions that manipulate these arrays rather than destroy them and create new ones
 
 Doing this will solve: 1) The D3 update problem, 2) The tags problem, 3) The reusability of methods with inputs

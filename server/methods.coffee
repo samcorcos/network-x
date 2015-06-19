@@ -2,104 +2,84 @@
 stringify = Neo4j.stringify.bind(Neo4j)
 
 Meteor.methods
-  ## TODO This method looks like something that can refactored ##
-  ## TODO Tags are currently *exclusive*, not inclusive ##
   search: (query, index, tags) ->
 
-    createTagsQuery = (acc, tag) -> acc + "OR '#{tag}' in a.tags "
-    uniqueNodes = (acc, node) ->
-      ## If there are no matches from the existing accumulated array (by comparing ids)... ##
-      console.log R.none(node.id, R.pluck('id')(acc))
-      if R.none(node.id, R.pluck('id')(acc))
-        ## Add the node to the acc array ##
-        return R.append(node, acc)
-      else return acc
-    # uniqueNodes = (row) ->
-    #   if
+    ## This is the query you use to match, either with or without an index ##
+    nIndex = "(a:#{index})-[]-(b)"
+    lIndex = "(a:#{index})-[r]-(b)"
+    nXIndex = "(a)-[]-(b)"
+    lXIndex = "(a)-[r]-(b)"
 
-    nodeIndex = "MATCH (a:#{index})-[]-(b)"
-    name = "WHERE a.name =~ '(?i)#{query}'"
-    tagsQuery = R.reduce(createTagsQuery, "", tags)
-    nodeAReturn = "RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
-    nodeBReturn = "RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
-    nodeReturn = "RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)}, {name:b.name, label:labels(b)[0], id:id(b)}"
-    linkIndex = "MATCH (a:#{index})-[r]-(b)"
-    linkReturn = "RETURN {source:id(a), target:id(b), type:type(r)} as links"
+    name = "a.name =~ '(?i)#{query}'"
+
+    ## This gives you a list of tag queries, either inclusive or exclusive, then takes off the first operator so it can be matched ##
+    iTags = R.reduce(((acc, tag) -> acc + "XOR '#{tag}' in a.tags "), "", tags).substring(4)
+    eTags = R.reduce(((acc, tag) -> acc + "AND '#{tag}' in a.tags "), "", tags).substring(4)
+
+    nReturn = "{name:a.name, label:labels(a)[0], id:id(a)}, {name:b.name, label:labels(b)[0], id:id(b)}"
+    lReturn = "{source:id(a), target:id(b), type:type(r)} as links"
 
     if tags.length > 0 and index and query
-      ## Gets all the nodes in one query ##
-      rows = Neo4j.query "#{nodeIndex} #{name} #{tagsQuery} #{nodeReturn}"
-      ## Reduces the array of nodes to only contain unique nodes ##
-      nodes = R.reduce(uniqueNodes, [], R.flatten(rows))
-      # nodes = []
-      # R.filter( , R.flatten(rows))
+      rows = Neo4j.query "MATCH #{nIndex} WHERE #{eTags} AND #{name} RETURN DISTINCT #{nReturn}"
+      ## Gets all nodes, flattens them into one array, returns new array with only unique nodes ##
+      nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query """
-                  MATCH (a:#{index})-[r]-(b)
-                  WHERE a.name =~ '(?i)#{query}'
-                  #{tagsQuery}
-                  RETURN {source:id(a), target:id(b), type:type(r)} as links
-                  """
+      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{eTags} AND #{name} RETURN #{lReturn}"
+      ## TODO this is the part I need to change for the purposes of updating D3 ##
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if tags.length > 0 and index and not query
-      nodesA = Neo4j.query "MATCH (a:#{index}) WHERE '#{tags}' in a.tags RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
-      nodesB = Neo4j.query "MATCH (a:#{index})-[]-(b) WHERE '#{tags}' in a.tags RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
-      nodes = R.concat(nodesA, nodesB) ## TODO there must be a way to do this in one query...
+      rows = Neo4j.query "MATCH #{nIndex} WHERE #{iTags} RETURN DISTINCT #{nReturn}"
+      nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH (a:#{index})-[r]-(b) WHERE '#{tags}' in a.tags RETURN {source:id(a), target:id(b), type:type(r)} as links"
+      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{iTags} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if tags.length > 0 and query and not index
-      nodesA = Neo4j.query "MATCH (a) WHERE '#{tags}' in a.tags AND a.name =~ '(?i)#{query}' RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
-      nodesB = Neo4j.query "MATCH (a)-[]-(b) WHERE '#{tags}' in a.tags AND a.name =~ '(?i)#{query}' RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
-      nodes = nodesA.concat(nodesB) ## TODO there must be a way to do this in one query...
+      rows = Neo4j.query "MATCH #{nXIndex} WHERE #{eTags} AND #{name} RETURN DISTCINT #{nReturn}"
+      nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH (a)-[r]-(b) WHERE '#{tags}' in a.tags AND a.name =~ '(?i)#{query}' RETURN {source:id(a), target:id(b), type:type(r)} as links"
+      linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{eTags} AND #{name} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if tags.length > 0 and not query and not index
-      nodesA = Neo4j.query "MATCH (a) WHERE '#{tags}' in a.tags RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
-      nodesB = Neo4j.query "MATCH (a)-[]-(b) WHERE '#{tags}' in a.tags RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
-      nodes = nodesA.concat(nodesB) ## TODO there must be a way to do this in one query...
+      rows = Neo4j.query "MATCH #{nXIndex} WHERE #{iTags} RETURN DISTINCT #{nReturn}"
+      nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH (a)-[r]-(b) WHERE '#{tags}' in a.tags RETURN {source:id(a), target:id(b), type:type(r)} as links"
+      linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{iTags} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if index and not tags.length > 0 and not query
-      nodesA = Neo4j.query "MATCH (a:#{index}) RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
-      nodesB = Neo4j.query "MATCH (a:#{index})-[]-(b) RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
-      nodes = nodesA.concat(nodesB) ## TODO there must be a way to do this in one query...
+      rows = Neo4j.query "MATCH #{nIndex} RETURN DISTINCT #{nReturn}"
+      nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH (a:#{index})-[r]-(b) RETURN {source:id(a), target:id(b), type:type(r)} as links"
+      linkIds = Neo4j.query "MATCH #{lIndex} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if index and query and not tags.length > 0
-      nodesA = Neo4j.query "MATCH (a:#{index}) WHERE a.name =~ '(?i)#{query}' RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
-      nodesB = Neo4j.query "MATCH (a:#{index})-[]-(b) WHERE a.name =~ '(?i)#{query}' RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
-      nodes = nodesA.concat(nodesB) ## TODO there must be a way to do this in one query...
+      rows = Neo4j.query "MATCH #{nIndex} WHERE #{name} RETURN DISTINCT #{nReturn}"
+      nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH (a:#{index})-[r]-(b) WHERE a.name =~ '(?i)#{query}' RETURN {source:id(a), target:id(b), type:type(r)} as links"
+      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{name} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if query and not tags.length > 0 and not index
-      nodesA = Neo4j.query "MATCH (a) WHERE a.name =~ '(?i)#{query}' RETURN DISTINCT {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
-      nodesB = Neo4j.query "MATCH (a)-[]-(b) WHERE a.name =~ '(?i)#{query}' RETURN DISTINCT {name:b.name, label:labels(b)[0], id:id(b)} as nodes"
-      nodes = nodesA.concat(nodesB) ## TODO there must be a way to do this in one query...
+      rows = Neo4j.query "MATCH #{nXIndex} WHERE #{name} RETURN DISTINCT #{nReturn}"
+      nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH (a)-[r]-(b) WHERE a.name =~ '(?i)#{query}' RETURN {source:id(a), target:id(b), type:type(r)} as links"
+      linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{name} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes}
