@@ -1,10 +1,3 @@
-
-# filter by tags
-
-# figure out the "expand-by-one" option
-
-# get more data onto nodes for click event to display with popover
-
 # To Do
 
 - [x] bootstrap some fake data into neo4j
@@ -34,16 +27,18 @@
   - [ ] implement zoom and pan
   - [ ] resize nodes based on sqrt of incoming connections and weight of those connections
 
-
-
-
 figure out "expand-by-one" option on click
 
 shortest path between two nodes?
 
 get more data into nodes (description) for popover display
 
-#TODO
+#TODO June 19th
+
+First things first: fix the exclusive tag problem.
+Create a variable that is a string with "and" queries that comes from an iteration over the tags array.
+Then include that variable as an interpolated string into the neo4j query
+Booya
 
 1. Simplify queries in methods using Ramda and map reduce
 2. Iterate over tags array parameter to make tag queries inclusive rather than exclusive
