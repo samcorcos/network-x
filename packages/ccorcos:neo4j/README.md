@@ -1,18 +1,19 @@
 # Getting Started
 
-Install and setup Neo4j
+Install and setup Neo4j:
 
     brew install neo4j
     npm install -g neo4j
 
-Then start Neo4j and start Meteor
+Then start Neo4j and start Meteor:
 
     neo4j start
+    meteor add ccorcos:neo4j
     meteor
 
 You should be able to see the Neo4j browser at the Neo4j url (default: http://localhost:7474/).
 
-When you're done, be sure to stop Neo4j as well
+When you're done, be sure to stop Neo4j as well with the following command:
 
     neo4j stop
 
@@ -22,14 +23,19 @@ To reset Neo4j, delete `data/graph.db`. If you used brew to install Neo4j, then 
 
     rm -rf /usr/local/Cellar/neo4j/2.1.7/libexec/data/graph.db
 
-Or you can use the following queries to delete all relationships and all nodes
+Or you can use the following queries to delete all relationships and all nodes:
 
     match ()-[r]->(), (n) delete r,n
 
 Or you can use the `.reset` method attached to the Neo4j object. This is much slower though.
 
-To instatiate a connection, on the server, use
+To instatiate a connection, on the server, use:
 
     Neo4j = new Neo4jDB()
 
 Also note, that Neo4j does not accept nested property lists, so its best to structure your Mongo collections similarly.
+
+Optionally, you may pass a GrapheneDB url into the Neo4jDB constructor:
+
+    Neo4j = new Neo4jDB(http://<USERNAME>:<PASSWORD>@networkx.sb05.stations.graphenedb.com:24789)
+
