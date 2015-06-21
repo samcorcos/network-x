@@ -89,9 +89,9 @@ Meteor.methods
 
   getGraph: () ->
     ## Returns all data in the graph ##
-    nodes = Neo4j.query "MATCH (a) RETURN {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
+    nodes = Neo4j.query "MATCH (a) WHERE NOT labels(a)[0] = 'Jurisdiction' RETURN {name:a.name, label:labels(a)[0], id:id(a)} as nodes"
 
-    linkIds = Neo4j.query "MATCH (a)-[r]->(b) RETURN {source:id(a), target:id(b), type:type(r)} as links"
+    linkIds = Neo4j.query "MATCH (a)-[r]->(b) WHERE NOT labels(a)[0] = 'Jurisdiction' AND NOT labels(b)[0] = 'Jurisdiction' RETURN {source:id(a), target:id(b), type:type(r)} as links"
 
     ## createLinks takes in a link with ids and the full node list, then converts it to something that D3 can use: array indeces
     links = createLinks linkIds, R.pluck('id')(nodes)
