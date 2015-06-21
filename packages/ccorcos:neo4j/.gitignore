@@ -1,2 +1,2 @@
-*.npm
 *.DS_Store
+.versions
