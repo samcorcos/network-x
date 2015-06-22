@@ -13,6 +13,8 @@ Meteor.methods
     nXIndex = "(a)-[]-(b)"
     lXIndex = "(a)-[r]-(b)"
 
+    notJ = " NOT labels(a)[0] = 'Jurisdiction' AND NOT labels(b)[0] = 'Jurisdiction' "
+
     name = "a.name =~ '(?i)#{query}'"
 
     ## This gives you a list of tag queries, either inclusive or exclusive, then takes off the first operator so it can be matched ##
@@ -23,66 +25,66 @@ Meteor.methods
     lReturn = "{source:id(a), target:id(b), type:type(r)} as links"
 
     if tags.length > 0 and index and query
-      rows = Neo4j.query "MATCH #{nIndex} WHERE #{eTags} AND #{name} RETURN DISTINCT #{nReturn}"
+      rows = Neo4j.query "MATCH #{nIndex} WHERE #{eTags} AND #{name} AND #{notJ} RETURN DISTINCT #{nReturn}"
       ## Gets all nodes, flattens them into one array, returns new array with only unique nodes ##
       nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{eTags} AND #{name} RETURN #{lReturn}"
+      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{eTags} AND #{name} AND #{notJ} RETURN #{lReturn}"
       ## TODO this is the part I need to change for the purposes of updating D3 ##
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if tags.length > 0 and index and not query
-      rows = Neo4j.query "MATCH #{nIndex} WHERE #{iTags} RETURN DISTINCT #{nReturn}"
+      rows = Neo4j.query "MATCH #{nIndex} WHERE #{iTags} AND #{notJ} RETURN DISTINCT #{nReturn}"
       nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{iTags} RETURN #{lReturn}"
+      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{iTags} AND #{notJ} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if tags.length > 0 and query and not index
-      rows = Neo4j.query "MATCH #{nXIndex} WHERE #{eTags} AND #{name} RETURN DISTCINT #{nReturn}"
+      rows = Neo4j.query "MATCH #{nXIndex} WHERE #{eTags} AND #{name} AND #{notJ} RETURN DISTCINT #{nReturn}"
       nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{eTags} AND #{name} RETURN #{lReturn}"
+      linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{eTags} AND #{name} AND #{notJ} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if tags.length > 0 and not query and not index
-      rows = Neo4j.query "MATCH #{nXIndex} WHERE #{iTags} RETURN DISTINCT #{nReturn}"
+      rows = Neo4j.query "MATCH #{nXIndex} WHERE #{iTags} AND #{notJ} RETURN DISTINCT #{nReturn}"
       nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{iTags} RETURN #{lReturn}"
+      linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{iTags} AND #{notJ} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if index and not tags.length > 0 and not query
-      rows = Neo4j.query "MATCH #{nIndex} RETURN DISTINCT #{nReturn}"
+      rows = Neo4j.query "MATCH #{nIndex} WHERE #{notJ} RETURN DISTINCT #{nReturn}"
       nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH #{lIndex} RETURN #{lReturn}"
+      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{notJ} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if index and query and not tags.length > 0
-      rows = Neo4j.query "MATCH #{nIndex} WHERE #{name} RETURN DISTINCT #{nReturn}"
+      rows = Neo4j.query "MATCH #{nIndex} WHERE #{name} AND #{notJ} RETURN DISTINCT #{nReturn}"
       nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{name} RETURN #{lReturn}"
+      linkIds = Neo4j.query "MATCH #{lIndex} WHERE #{name} AND #{notJ} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes }
 
     if query and not tags.length > 0 and not index
-      rows = Neo4j.query "MATCH #{nXIndex} WHERE #{name} RETURN DISTINCT #{nReturn}"
+      rows = Neo4j.query "MATCH #{nXIndex} WHERE #{name} AND #{notJ} RETURN DISTINCT #{nReturn}"
       nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
-      linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{name} RETURN #{lReturn}"
+      linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{name} AND #{notJ} RETURN #{lReturn}"
       links = createLinks linkIds, R.pluck('id')(nodes)
 
       return graph = { links:links, nodes:nodes}

@@ -8,9 +8,9 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use([
-    'coffeescript', 
+    'coffeescript',
     'http',
-    'ramda:ramda@0.13.0'
+    'kevohagan:ramda@0.13.0'
   ], 'server');
   api.addFiles('src/driver.coffee', 'server');
   api.export('Neo4jDB')

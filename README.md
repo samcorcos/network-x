@@ -29,6 +29,7 @@
   - [ ] get data to update responsively (rather than the current hack)
   - [ ] implement zoom and pan
   - [ ] resize nodes based on sqrt of incoming connections and weight of those connections
+- [ ] Add some kind of loading screen while query is taking place? Maybe this won't be necessary once we figure out responsive updating...
 
 figure out "expand-by-one" option on click
 
@@ -38,8 +39,10 @@ get more data into nodes (description) for popover display
 
 #TODO June 20th
 
-1. Special filter for Jurisdiction (exclusive filter)
-2. Change the "create links" and "create nodes" to be global within the scope of D3
+1. ~~Special filter for Jurisdiction (exclusive filter)~~
+2. Make a filter in the side nav to filter out jurisdictions. All should start out checked. Then, inclusive filter.
+3. Change the "create links" and "create nodes" to be global within the scope of D3
   1. Then, create new functions that manipulate these arrays rather than destroy them and create new ones
+4. Have all tags start out as checked, then use inclusive filter.
 
 Doing this will solve: 1) The D3 update problem, 2) The tags problem, 3) The reusability of methods with inputs
