@@ -7,13 +7,9 @@
 meteor-platform
 coffeescript
 meteorhacks:flow-router
-ccorcos:ramda
 d3js:d3
-digilord:faker
-kevohagan:ramda
 meteorhacks:flow-layout
 fourseven:scss
 meteorhacks:kadira
 http
 ccorcos:neo4j
-jparker:crypto-base64
