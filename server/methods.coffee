@@ -14,11 +14,10 @@ Meteor.methods
     lXIndex = "(a)-[r]-(b)"
 
     notJ = " NOT labels(a)[0] = 'Jurisdiction' AND NOT labels(b)[0] = 'Jurisdiction' "
-
-    name = "a.name =~ '(?i)#{query}'"
+    name = "a.name =~ '(?i).*#{query}.*'"
 
     ## This gives you a list of tag queries, either inclusive or exclusive, then takes off the first operator so it can be matched ##
-    iTags = R.reduce(((acc, tag) -> acc + "XOR '#{tag}' in a.tags "), "", tags).substring(4)
+    iTags = R.reduce(((acc, tag) -> acc + "OR '#{tag}' in a.tags "), "", tags).substring(3)
     eTags = R.reduce(((acc, tag) -> acc + "AND '#{tag}' in a.tags "), "", tags).substring(4)
 
     nReturn = "{name:a.name, label:labels(a)[0], id:id(a)}, {name:b.name, label:labels(b)[0], id:id(b)}"
@@ -54,7 +53,9 @@ Meteor.methods
       return graph = { links:links, nodes:nodes }
 
     if tags.length > 0 and not query and not index
+      console.log "getting here..."
       rows = Neo4j.query "MATCH #{nXIndex} WHERE #{iTags} AND #{notJ} RETURN DISTINCT #{nReturn}"
+      console.log "THis is rows", rows
       nodes = R.uniqWith((a,b) -> a.id is b.id)(R.flatten(rows))
 
       linkIds = Neo4j.query "MATCH #{lXIndex} WHERE #{iTags} AND #{notJ} RETURN #{lReturn}"
@@ -104,7 +105,7 @@ Meteor.methods
 
   createNode: (label, name, tags) -> Neo4j.query "MERGE (a:#{label} {name:'#{name}'})"
 
-  getNodes: (query) -> Neo4j.query "MATCH (a) WHERE a.name =~ '(?i)#{query}.+' RETURN DISTINCT {name:a.name} as nodes"
+  getNodes: (query) -> Neo4j.query "MATCH (a) WHERE a.name =~ '(?i).*#{query}.*' RETURN DISTINCT {name:a.name} as nodes"
 
   getLinkTypes: -> Neo4j.query "MATCH ()-[r]-() RETURN DISTINCT type(r)"
 

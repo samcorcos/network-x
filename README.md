@@ -46,3 +46,14 @@ get more data into nodes (description) for popover display
 4. Have all tags start out as checked, then use inclusive filter.
 
 Doing this will solve: 1) The D3 update problem, 2) The tags problem, 3) The reusability of methods with inputs
+
+========
+
+Filter by
+
+1. Person / org / corp
+2. Tags
+  1. All start checked, reactively remove unchecked. Include a select all button
+3. Jurisdiction
+4. Crime
+5. Search by name
