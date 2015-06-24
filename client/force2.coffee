@@ -26,6 +26,7 @@ class @Graph
     @d3zoom = d3.behavior.zoom()
     @translateOffset = [0,0];
     @currentTranslate = 0;
+    @scale = 1;
 
   rescale: ->
     if (@panDisabled)
@@ -34,10 +35,10 @@ class @Graph
       @translateOffset = [d3X - @currentTranslate[0], d3Y - @currentTranslate[1]]
     else
       @currentTranslate = [d3.event.translate[0] - @translateOffset[0], d3.event.translate[1] - @translateOffset[1]]
-      scale = d3.event.scale
+      @scale = d3.event.scale
       @svg.attr("transform",
-          "translate(" + @currentTranslate + ")"
-          + " scale(" + scale + ")")
+          "translate(" + @currentTranslate + ")" +
+          " scale(" + @scale + ")")
 
   addZoomBehaviour: ->
     self = this
