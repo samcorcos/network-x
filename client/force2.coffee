@@ -10,9 +10,11 @@ class @Graph
     $( "svg" ).remove()
 
     # Append SVG
-    @svg = d3.select('#network').append('svg')
+    @viewBox = d3.select('#network').append('svg')
       .attr('viewBox', "0 0 #{width} #{height}")
       .attr("preserveApectRatio", "xMidYMid meet")
+
+    @svg = @viewBox.append('svg:g')
 
     # Set up force layout
     @force = d3.layout.force()
@@ -21,8 +23,35 @@ class @Graph
       .linkStrength(0.6)
       .size([width, height])
 
+    @d3zoom = d3.behavior.zoom()
+    @translateOffset = [0,0];
+    @currentTranslate = 0;
+
+  rescale: ->
+    if (@panDisabled)
+      d3X = d3.event.translate[0] || 0
+      d3Y = d3.event.translate[1] || 0
+      @translateOffset = [d3X - @currentTranslate[0], d3Y - @currentTranslate[1]]
+    else
+      @currentTranslate = [d3.event.translate[0] - @translateOffset[0], d3.event.translate[1] - @translateOffset[1]]
+      scale = d3.event.scale
+      @svg.attr("transform",
+          "translate(" + @currentTranslate + ")"
+          + " scale(" + scale + ")")
+
+  addZoomBehaviour: ->
+    self = this
+    rescaleThis = ->
+      self.rescale.call(self)
+    @viewBox.call(@d3zoom.on "zoom", rescaleThis)
+
+  disableZoom: ->
+    @viewBox.call(@d3zoom.on "zoom", null)
+
   update: ->
     graph = Session.get "graph"
+    self = @
+    @addZoomBehaviour()
 
     @force.nodes(graph.nodes)
       .links(graph.links)
@@ -42,6 +71,11 @@ class @Graph
       .enter().append('g')
       .attr('class', 'node')
       .call(@force.drag)
+
+    node.on 'mousedown', ->
+      self.panDisabled = true;
+    window.onmouseup = ->
+      self.panDisabled = false;
 
     node.append('circle')
       .attr('r', radius)
